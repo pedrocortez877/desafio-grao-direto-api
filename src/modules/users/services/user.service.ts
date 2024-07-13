@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { HashService } from '../../../common/services/hash.service';
 import { UserRepository } from '../repositories/user.repository';
+import { CreateUserDto } from '../dtos/create-user.dto';
+import { HashService } from 'src/common/services/hash.service';
 
 @Injectable()
 export class UsersService {
@@ -10,19 +10,20 @@ export class UsersService {
     private readonly hashService: HashService,
   ) {}
 
-  async createUser(createUserDto: CreateUserDto) {
-    const { name, lastName, email, password } = createUserDto;
+  async create(data: CreateUserDto) {
+    const { name, lastName, email, password } = data;
 
-    const hashedEmail = await this.hashService.hash(email);
     const hashedPassword = await this.hashService.hash(password);
 
-    const user = await this.userRepository.create({
+    return await this.userRepository.create({
       name,
       lastName,
-      email: hashedEmail,
+      email,
       password: hashedPassword,
     });
+  }
 
-    return user;
+  async findByEmail(email: string) {
+    return this.userRepository.findByEmail(email);
   }
 }
