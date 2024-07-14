@@ -3,6 +3,7 @@ import { CommonModule } from './common/common.module';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RestaurantsModule } from './modules/restaurants/restaurants.module';
+import { MenusModule } from './modules/menus/menu.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { RestaurantsModule } from './modules/restaurants/restaurants.module';
     UsersModule, // Módulo de usuários
     AuthModule, // Módulo de autenticação
     RestaurantsModule, // Módulo de restaurantes
+    MenusModule, // Módulo de menus
   ],
   controllers: [],
   providers: [],
