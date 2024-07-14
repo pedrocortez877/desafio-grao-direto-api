@@ -18,7 +18,9 @@ export class PrismaMenuRepository implements MenuRepository {
   findByName(name: string): Promise<Menu[]> {
     return this.prisma.menu.findMany({
       where: {
-        name,
+        name: {
+          contains: name,
+        },
       },
     });
   }

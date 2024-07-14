@@ -4,6 +4,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RestaurantsModule } from './modules/restaurants/restaurants.module';
 import { MenusModule } from './modules/menus/menu.module';
+import { ProductsModule } from './modules/products/product.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { MenusModule } from './modules/menus/menu.module';
     AuthModule, // Módulo de autenticação
     RestaurantsModule, // Módulo de restaurantes
     MenusModule, // Módulo de menus
+    ProductsModule, // Módulo de produtos
   ],
   controllers: [],
   providers: [],
