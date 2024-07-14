@@ -8,8 +8,8 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(data: CreateUserDto): Promise<void> {
-    await this.prisma.user.create({ data });
+  async create(data: CreateUserDto): Promise<User> {
+    return await this.prisma.user.create({ data });
   }
 
   async findByEmail(email: string): Promise<User | null> {
