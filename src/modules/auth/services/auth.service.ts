@@ -1,7 +1,7 @@
 import { SignUpDto } from './../dtos/signup.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { HashService } from '../../../common/services/hash.service';
+import { HashService } from '../../../common/services/hash/hash.service';
 import { UsersService } from 'src/modules/users/services/user.service';
 import { User } from '@prisma/client';
 import { SignInDto } from '../dtos/signIn.dto';
@@ -61,6 +61,12 @@ export class AuthService {
       throw new BadRequestException('E-mail já cadastrado');
     }
 
-    return this.usersService.create(signUpDto);
+    const hashedPassword = await this.hashService.hash(signUpDto.password);
+    const newUser = {
+      ...signUpDto,
+      password: hashedPassword,
+    };
+
+    return this.usersService.create(newUser);
   }
 }

@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './user.service';
 import { UserRepository } from '../repositories/user.repository';
-import { HashService } from 'src/common/services/hash.service';
 import { User } from '@prisma/client';
+import { HashService } from 'src/common/services/hash/hash.service';
 
 describe('UsersService', () => {
   let service: UsersService;
