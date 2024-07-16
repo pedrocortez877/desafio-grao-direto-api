@@ -11,21 +11,23 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
+  id       String     @id @default(uuid())
   name     String
   lastName String
-  email    String @unique
+  email    String     @unique
   password String
+  Favorite Favorite[]
 }
 
 model Restaurant {
-  id             String @id @default(uuid())
+  id             String     @id @default(uuid())
   name           String
   description    String
   rating         Float
   timeToDelivery String
   deliveryPrice  Float
   menus          Menu[]
+  Favorite       Favorite[]
 }
 
 model Menu {
@@ -44,4 +46,13 @@ model Product {
   price       Float
   menu        Menu   @relation(fields: [menuId], references: [id])
   menuId      String
+  imageUrl    String @default("https://img.freepik.com/psd-premium/um-prato-de-salada-com-a-foto-de-uma-salada_176841-42042.jpg")
+}
+
+model Favorite {
+  id           String     @id @default(uuid())
+  user         User       @relation(fields: [userId], references: [id])
+  userId       String
+  restaurant   Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurantId String
 }

@@ -1,5 +1,5 @@
 import { SignUpDto } from './../dtos/signup.dto';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { HashService } from '../../../common/services/hash.service';
 import { UsersService } from 'src/modules/users/services/user.service';
@@ -28,14 +28,24 @@ export class AuthService {
     return null;
   }
 
+  async checkEmailAlreadyExists(email: string): Promise<boolean> {
+    const user = await this.usersService.findByEmail(email);
+
+    return !!user;
+  }
+
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const user = await this.validateUser(signInDto.email, signInDto.password);
 
     if (!user) {
-      throw new UnauthorizedException('Suas credenciais são inválidas');
+      throw new BadRequestException('E-mail e/ou senha inválidos');
     }
 
-    const payload = { email: user.email, sub: user.id };
+    const payload = {
+      email: user.email,
+      sub: user.id,
+      firstName: user.name,
+    };
 
     return {
       access_token: this.jwtService.sign(payload),
@@ -43,6 +53,14 @@ export class AuthService {
   }
 
   async signUp(signUpDto: SignUpDto) {
+    const emailAlreadyExists = await this.checkEmailAlreadyExists(
+      signUpDto.email,
+    );
+
+    if (emailAlreadyExists) {
+      throw new BadRequestException('E-mail já cadastrado');
+    }
+
     return this.usersService.create(signUpDto);
   }
 }

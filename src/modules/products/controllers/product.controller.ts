@@ -8,7 +8,7 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get('menu')
-  async findByRestaurantId(@Query('menuId') menuId: string) {
+  async findByMenuId(@Query('menuId') menuId: string) {
     return await this.productService.findByMenuId(menuId);
   }
 

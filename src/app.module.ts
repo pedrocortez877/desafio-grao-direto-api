@@ -7,6 +7,7 @@ import { MenusModule } from './modules/menus/menu.module';
 import { ProductsModule } from './modules/products/product.module';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
+import { FavoriteModule } from './modules/favorites/favorite.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { HttpExceptionFilter } from './common/filters/http-exception.filter';
     RestaurantsModule, // Módulo de restaurantes
     MenusModule, // Módulo de menus
     ProductsModule, // Módulo de produtos
+    FavoriteModule,
   ],
   controllers: [],
   providers: [

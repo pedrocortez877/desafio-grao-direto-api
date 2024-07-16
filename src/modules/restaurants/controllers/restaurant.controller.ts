@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { RestaurantService } from '../services/restaurant.service';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 
@@ -10,5 +10,15 @@ export class RestaurantController {
   @Get()
   async findAll() {
     return await this.restaurantService.findAll();
+  }
+
+  @Get('id')
+  async getById(@Query('id') id: string) {
+    return await this.restaurantService.findById(id);
+  }
+
+  @Get('search')
+  async searchRestaurants(@Query('query') query: string) {
+    return await this.restaurantService.searchRestaurants(query);
   }
 }
