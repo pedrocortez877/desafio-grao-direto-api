@@ -3,10 +3,12 @@ import { UsersService } from './user.service';
 import { UserRepository } from '../repositories/user.repository';
 import { User } from '@prisma/client';
 import { HashService } from 'src/common/services/hash/hash.service';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 describe('UsersService', () => {
   let service: UsersService;
   let repository: UserRepository;
+  let hashService: HashService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -32,6 +34,7 @@ describe('UsersService', () => {
 
     service = module.get<UsersService>(UsersService);
     repository = module.get<UserRepository>(UserRepository);
+    hashService = module.get<HashService>(HashService);
   });
 
   it('should be defined', () => {
@@ -40,38 +43,26 @@ describe('UsersService', () => {
 
   // Teste para a criação de usuário
   it('should create a user', async () => {
-    const createUserDto = {
+    const hashedPassword = 'hashedPassword';
+    const createUserDto: CreateUserDto = {
       name: 'John',
       lastName: 'Doe',
       email: 'test@example.com',
       password: 'password',
     };
-    const hashedPassword = 'hashedPassword';
+
     const user: User = {
-      ...createUserDto,
-      password: hashedPassword,
       id: 'someId',
-    } as User;
+      ...createUserDto,
+    };
 
     jest.spyOn(repository, 'create').mockResolvedValue(user);
-    jest
-      .spyOn(service['hashService'], 'hash')
-      .mockResolvedValue(hashedPassword);
+    jest.spyOn(hashService, 'hash').mockResolvedValue(hashedPassword);
 
     const result = await service.create(createUserDto);
 
-    expect(result).toMatchObject({
-      name: 'John',
-      lastName: 'Doe',
-      email: 'test@example.com',
-      password: hashedPassword,
-    });
-    expect(repository.create).toHaveBeenCalledWith({
-      name: 'John',
-      lastName: 'Doe',
-      email: 'test@example.com',
-      password: hashedPassword,
-    });
+    expect(result).toMatchObject(user);
+    expect(repository.create).toHaveBeenCalledWith(createUserDto);
   });
 
   // Teste para encontrar um usuário por email

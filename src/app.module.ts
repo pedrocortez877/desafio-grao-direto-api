@@ -17,7 +17,7 @@ import { FavoriteModule } from './modules/favorites/favorite.module';
     RestaurantsModule, // Módulo de restaurantes
     MenusModule, // Módulo de menus
     ProductsModule, // Módulo de produtos
-    FavoriteModule,
+    FavoriteModule, // Módulo de favoritos
   ],
   controllers: [],
   providers: [

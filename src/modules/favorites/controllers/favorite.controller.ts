@@ -10,8 +10,8 @@ import {
 import { FavoriteService } from '../services/favorite.service';
 import { JwtAuthGuard } from 'src/modules/auth/guards/jwt-auth.guard';
 import { User } from '@prisma/client';
-import { GetUser } from 'src/modules/auth/decorators/get-user.decorator';
 import { CreateFavoriteDto } from '../dtos/create-favorite.dto';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('favorites')

@@ -1,19 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { RestaurantRepository } from '../repositories/restaurant.repository';
+import { Restaurant } from '@prisma/client';
 
 @Injectable()
 export class RestaurantService {
   constructor(private readonly restaurantRepository: RestaurantRepository) {}
 
-  async findAll() {
+  async findAll(): Promise<Restaurant[]> {
     return await this.restaurantRepository.findAll();
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<Restaurant> {
     return await this.restaurantRepository.findById(id);
   }
 
-  async searchRestaurants(query: string) {
+  async searchRestaurants(query: string): Promise<Restaurant[]> {
     const productSearchConditions = {
       OR: [{ name: { contains: query } }, { description: { contains: query } }],
     };

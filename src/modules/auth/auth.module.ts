@@ -3,13 +3,11 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './services/auth.service';
 import { UsersModule } from '../users/users.module';
-import { CommonModule } from '../../common/common.module';
 import { AuthController } from './controllers/auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
-    CommonModule,
     UsersModule,
     PassportModule,
     JwtModule.register({
