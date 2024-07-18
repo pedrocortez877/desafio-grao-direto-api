@@ -1,7 +1,6 @@
 - Melhorias:
 - Melhorar tratamento de erros
 - Depender menos do prisma (Tipagem)
-- GetUser Decorator é legal porém desnecessário (Conseguimos o mesmo efeito através dos Guards) - https://docs.nestjs.com/security/authentication#implementing-the-authentication-guard
 
 - Novas implementações
 - Carrinho
