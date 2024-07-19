@@ -15,6 +15,13 @@ export class RestaurantService {
   }
 
   async searchRestaurants(query: string): Promise<Restaurant[]> {
+    return this.restaurantRepository.findMany({
+      where: this.getSearchRestaurantConditions(query),
+      include: this.getSearchRestaurantInclude(),
+    });
+  }
+
+  private getSearchRestaurantConditions(query: string) {
     const productSearchConditions = {
       OR: [{ name: { contains: query } }, { description: { contains: query } }],
     };
@@ -27,19 +34,18 @@ export class RestaurantService {
       },
     };
 
-    const restaurantSearchConditions = {
+    return {
       OR: [{ name: { contains: query } }, { menus: menuSearchConditions }],
     };
+  }
 
-    return this.restaurantRepository.findMany({
-      where: restaurantSearchConditions,
-      include: {
-        menus: {
-          include: {
-            products: true,
-          },
+  private getSearchRestaurantInclude() {
+    return {
+      menus: {
+        include: {
+          products: true,
         },
       },
-    });
+    };
   }
 }

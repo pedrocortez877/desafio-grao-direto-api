@@ -23,7 +23,6 @@ export class FavoriteController {
     @Body() { restaurantId }: CreateFavoriteDto,
     @GetUser() user: User,
   ) {
-    console.log('🚀 ~ FavoriteController ~ restaurantId:', restaurantId);
     return this.favoriteService.addFavorite(user.id, restaurantId);
   }
 
