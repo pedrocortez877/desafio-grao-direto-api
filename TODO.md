@@ -2,11 +2,15 @@
 - Melhorar tratamento de erros
 - Depender menos do prisma (Tipagem)
 
-- Novas implementações
+- Segurança:
+- HELMET
+- Rate limit
+
+- Novas implementações:
 - Carrinho
 - Fechamento de pedido
 
-- Para um futuro painel gerenciador
+- Para um futuro painel gerenciador:
 - CRUD completo de restaurantes
 - CRUD completo de menus
 - CRUD completo de produtos

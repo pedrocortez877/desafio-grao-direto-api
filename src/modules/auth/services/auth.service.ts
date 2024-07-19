@@ -1,5 +1,10 @@
 import { SignUpDto } from './../dtos/signup.dto';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { HashService } from '../../../common/services/hash/hash.service';
 import { UsersService } from 'src/modules/users/services/user.service';
@@ -18,14 +23,14 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
 
     if (!user) {
-      return null;
+      throw new NotFoundException('Usuário não encontrado');
     }
 
     if (await this.hashService.compare(pass, user.password)) {
       return user;
     }
 
-    return null;
+    throw new UnauthorizedException('E-mail e/ou senha inválidos');
   }
 
   async checkEmailAlreadyExists(email: string): Promise<boolean> {
@@ -36,10 +41,6 @@ export class AuthService {
 
   async signIn(signInDto: SignInDto): Promise<{ access_token: string }> {
     const user = await this.validateUser(signInDto.email, signInDto.password);
-
-    if (!user) {
-      throw new BadRequestException('E-mail e/ou senha inválidos');
-    }
 
     const payload = {
       email: user.email,
